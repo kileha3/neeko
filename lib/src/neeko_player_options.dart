@@ -50,6 +50,8 @@ class NeekoPlayerOptions {
   /// Default = true
   final bool showFullScreenButton;
 
+  final bool showBackButton;
+
   ///Values given to [SystemChrome.setEnabledSystemUIOverlays(overlays)] when enter
   ///fullscreen mode.
   final List<DeviceOrientation> preferredOrientationsWhenEnterLandscape;
@@ -66,6 +68,7 @@ class NeekoPlayerOptions {
       this.enableDragSeek = true,
       this.isLive = false,
       this.showFullScreenButton = true,
+      this.showBackButton = true,
       this.preferredOrientationsWhenEnterLandscape = const [
         DeviceOrientation.landscapeRight,
         DeviceOrientation.landscapeLeft
