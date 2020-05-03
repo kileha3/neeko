@@ -59,6 +59,8 @@ class NeekoPlayerWidget extends StatefulWidget {
   /// Callback of back-button's onTap event  when the top controller is portrait
   final Function onPortraitBackTap;
 
+  final Function onPlayerReady;
+
   final Function onLandscapeBackTap;
 
   /// When the skip previous button tapped
@@ -88,6 +90,7 @@ class NeekoPlayerWidget extends StatefulWidget {
       this.inFullScreen = false,
       this.onPortraitBackTap,
         this.onLandscapeBackTap,
+        this.onPlayerReady,
       this.onSkipPrevious,
       this.onSkipNext,
         this.showTop,
@@ -134,6 +137,7 @@ class _NeekoPlayerWidgetState extends State<NeekoPlayerWidget> {
           }
 
           if(widget.inFullScreen){
+            widget.onPlayerReady();
             pushFullScreenWidget();
           }
         });
