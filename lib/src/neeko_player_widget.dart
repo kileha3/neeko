@@ -59,8 +59,12 @@ class NeekoPlayerWidget extends StatefulWidget {
   /// Callback of back-button's onTap event  when the top controller is portrait
   final Function onPortraitBackTap;
 
+  final Function onLandscapeBackTap;
+
   /// When the skip previous button tapped
   final Function onSkipPrevious;
+
+  final bool showTop;
 
   /// When the skip previous button tapped
   final Function onSkipNext;
@@ -83,8 +87,10 @@ class NeekoPlayerWidget extends StatefulWidget {
       this.startAt = const Duration(seconds: 0),
       this.inFullScreen = false,
       this.onPortraitBackTap,
+        this.onLandscapeBackTap,
       this.onSkipPrevious,
       this.onSkipNext,
+        this.showTop,
       this.progressBarPlayedColor,
       this.progressBarBufferedColor: const Color(0xFF757575),
       this.progressBarHandleColor,
@@ -122,8 +128,14 @@ class _NeekoPlayerWidgetState extends State<NeekoPlayerWidget> {
     videoControllerWrapper.addListener(() {
       if (mounted)
         setState(() {
-//          _addShowControllerListener();
-//          _autoPlay();
+          //_addShowControllerListener();
+          if(widget.playerOptions.autoPlay){
+            _autoPlay();
+          }
+
+          if(widget.inFullScreen){
+            pushFullScreenWidget();
+          }
         });
     });
   }
@@ -294,6 +306,7 @@ class _NeekoPlayerWidgetState extends State<NeekoPlayerWidget> {
                       actions: widget.actions,
                       isFullscreen: false,
                       onPortraitBackTap: widget.onPortraitBackTap,
+                      onLandscapeBackTap: widget.onLandscapeBackTap,
                     )),
               if (widget.playerOptions.useController)
                 (!widget.playerOptions.isLive)

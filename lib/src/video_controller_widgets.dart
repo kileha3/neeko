@@ -369,29 +369,36 @@ class _TopBarState extends State<TopBar> {
     final IconData back =
         Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back;
 
-    return Align(
+    return  Align(
       alignment: Alignment.centerLeft,
       child: FlatButton.icon(
           onPressed: () {
-            if (widget.isFullscreen && widget.onLandscapeBackTap != null) {
+            if(!widget.controllerWrapper.dataSource.cleanUi){
+              if(widget.controllerWrapper.dataSource.showBackIcon){
+                if (widget.isFullscreen && widget.onLandscapeBackTap != null) {
+                  widget.onLandscapeBackTap();
+                } else if (!widget.isFullscreen &&
+                    widget.onPortraitBackTap != null) {
+                  widget.onPortraitBackTap();
+                }
+              }
+            }else{
               widget.onLandscapeBackTap();
-            } else if (!widget.isFullscreen &&
-                widget.onPortraitBackTap != null) {
-              widget.onPortraitBackTap();
             }
           },
-          icon: Icon(
+          icon: widget.controllerWrapper.dataSource.cleanUi ? Icon(back,color: Colors.white,
+              size:  32) :widget.controllerWrapper.dataSource.showBackIcon ? Icon(
             widget.isFullscreen ? Icons.keyboard_arrow_down : back,
             color: Colors.white,
             size: widget.isFullscreen ? 32 : 24,
-          ),
-          label: Text(
+          ): Icon(null),
+          label:widget.controllerWrapper.dataSource.showTitle ? Text(
             widget.controllerWrapper.dataSource?.displayName == null
                 ? ""
                 : widget.controllerWrapper.dataSource.displayName,
             style: TextStyle(
                 color: Colors.white, fontSize: widget.isFullscreen ? 16 : 14),
-          )),
+          ):Text("")),
     );
   }
 }
@@ -522,19 +529,20 @@ class _BottomBarState extends State<BottomBar> {
             ),
           ),
           IconButton(
-            icon: Icon(
-              widget.isFullscreen ? Icons.fullscreen_exit : Icons.fullscreen,
+            icon: widget.controllerWrapper.dataSource.cleanUi ? Icon(null):Icon(widget.isFullscreen ? Icons.fullscreen_exit : Icons.fullscreen,
               color: Colors.white,
             ),
             onPressed: () {
-              if(controller == null || !controller.value.initialized){
-                return;
-              }
-              if (widget.isFullscreen && widget.onExitFullscreen != null) {
-                widget.onExitFullscreen();
-              } else if (!widget.isFullscreen &&
-                  widget.onEnterFullscreen != null) {
-                widget.onEnterFullscreen();
+              if(!widget.controllerWrapper.dataSource.cleanUi){
+                if(controller == null || !controller.value.initialized){
+                  return;
+                }
+                if (widget.isFullscreen && widget.onExitFullscreen != null) {
+                  widget.onExitFullscreen();
+                } else if (!widget.isFullscreen &&
+                    widget.onEnterFullscreen != null) {
+                  widget.onEnterFullscreen();
+                }
               }
             },
           ),
